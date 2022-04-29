@@ -6,6 +6,7 @@ const path = require('path');
 const uuid = require("uuid")
 const session = require('express-session');
 const flash = require('connect-flash');
+const { copyFileSync } = require('fs');
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -133,10 +134,7 @@ app.get("/product/add", isAdminLoggedIn, (req, res) => {
     })
 })
 
-app.get('/logout', (req, res) => {
-    req.session.emailId = null;
-    res.redirect('/');
-})
+
 
 app.post('/register', (req, res) => {
     const person = req.body.person;
@@ -299,6 +297,20 @@ app.post('/review/submit', (req, res) => {
     res.redirect('/products');
 })
 
+app.get('/orderhistory', isLoggedIn, async (req, res) => {
+    console.log('In order history');
+    var orders = [];
+    var dict = {}
+    str = `select * from (select * from orders where customerId=${req.session.customerId})
+     as t natural join itemdetails`
+    await con.query(str, async (err1, res1) => {
+        if (err1) throw err1;
+        orders = JSON.parse(JSON.stringify(res1))
+        console.log('orders', orders);
+        res.render('orderHistory', { orders });
+
+    })
+})
 
 app.post('/buynow', isLoggedIn, async (req, res) => {
     console.log('In buynow');

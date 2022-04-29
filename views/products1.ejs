@@ -47,6 +47,7 @@
                     </form>
                     <a class="nav-link" href="/cart" style="color:#9b9d9e"><i class="fas fa-cart-arrow-down"></i>
                         <span class="cart-icon">Cart</span> </a>
+
                 </div>
             </div>
         </nav>
@@ -197,30 +198,33 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <% cnt=1 %>
-                                                                <% for(let review of p_reviews){ %>
-                                                                    <% if(review.productId==product.productId){ %>
+                                                            <% var num_rating=0 %>
+                                                                <% var sum_rating=0 %>
+                                                                    <% for(let review of p_reviews){ %>
+                                                                        <% if(review.productId==product.productId){ %>
+                                                                            <% num_rating+=1 %>
+                                                                                <% sum_rating+=review.rating %>
+                                                                                    <tr>
+                                                                                        <th scope=" row">
+                                                                                            <%= num_rating %>
+                                                                                        </th>
+                                                                                        <td>
+                                                                                            <%= review.name %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <%= review.rating %>
+                                                                                        </td>
 
-                                                                        <tr>
-                                                                            <th scope=" row">
-                                                                                <%= cnt%>
-                                                                            </th>
-                                                                            <td>
-                                                                                <%= review.name %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= review.rating %>
-                                                                            </td>
+                                                                                        <%var d1=review.day
+                                                                                            +"/"+review.month
+                                                                                            +"/"+review.year %>
+                                                                                            <td>
+                                                                                                <%=d1 %>
+                                                                                            </td>
+                                                                                    </tr>
+                                                                                    <% } %>
+                                                                                        <% } %>
 
-                                                                            <%var d1=review.day +"/"+review.month
-                                                                                +"/"+review.year %>
-                                                                                <td>
-                                                                                    <%=d1 %>
-                                                                                </td>
-                                                                        </tr>
-                                                                        <% cnt++ %>
-                                                                            <% } %>
-                                                                                <% } %>
 
                                                         </tbody>
                                                     </table>
@@ -254,12 +258,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer text-muted">
-                                    <b>
-                                        Price: <span>&#x20B9;</span>
-                                        <%= product.unit_price %>
-                                    </b>
-                                </div>
+                                <% var avg=(num_rating>0)?(sum_rating/num_rating).toFixed(1):0 %>
+                                    <p>
+                                        <b> Avg Rating:</b>
+                                        <%= avg %> (<%= num_rating%> reviews)
+                                    </p>
+                                    <div class="card-footer text-muted">
+                                        <b>
+                                            Price: <span>&#x20B9;</span>
+                                            <%= product.unit_price %>
+                                        </b>
+                                    </div>
                             </div>
 
                         </div>

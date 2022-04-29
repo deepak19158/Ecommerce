@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <section id="order-details">
+        <h1>Order details :</h1>
+        <div class="accordion" id="accordionExample">
+
+            <% for (let product of orders ){ %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <h3 class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne">
+                            <%= product.productName %>
+                        </h3>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse " data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <ul>
+                                <li> Price : <%= product.price %>
+                                </li>
+                                <li> Quantity : <%= product.quantity %>
+                                </li>
+                                <li> Discount : <%= product.discount %>
+                                </li>
+                                <li> transationId :<%= product.txnId %>
+                                </li>
+                                <% var date=product.day+"/"+product.month+"/"+product.year %>
+                                    <li>Date :<%=date %>
+                                    </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+</body>
+
+</html>
